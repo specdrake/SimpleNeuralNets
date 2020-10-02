@@ -12,12 +12,16 @@ from PIL import Image
 
 img_org = cv2.imread('numtest.jpg')
 img_gray = cv2.cvtColor(img_org, cv2.COLOR_BGR2GRAY)
+(thresh, img_bw) = cv2.threshold(img_gray, 172, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
+plt.imshow(img_bw)
+plt.show()
+print(thresh)
 # print(type(img_gray))
 # print((np.shape(img_gray)))
 training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
 training_data_l = [x for x in training_data]
 test_data_l = [x for x in test_data]
-img = np.reshape(img_gray,(784,1))
+img = np.reshape(img_bw,(784,1))
 net = network.Network([784, 15, 10])
 w = np.load('trainedw.npy', allow_pickle=True)
 b = np.load('trainedb.npy', allow_pickle=True)
